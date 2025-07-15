@@ -79,6 +79,7 @@ impl Tokeniser {
                 ':' => tokens.push(Token::Colon),
                 '.' => tokens.push(Token::Period),
                 ',' => tokens.push(Token::Comma),
+                '!' => tokens.push(Token::LogNot),
                 '(' => tokens.push(Token::LeftParen),
                 ')' => tokens.push(Token::RightParen),
                 '{' => tokens.push(Token::LeftCurlyBracket),
@@ -104,6 +105,19 @@ impl Tokeniser {
                     };
                     tokens.push(token);
                 },
+                '|' | '&' => {
+                    let item: String = iter::once(chr)
+                        .chain(iter::from_fn(
+                            || iter.by_ref().next_if(|ch| *ch == chr)
+                        ))
+                        .collect();
+                    let token = match item.as_ref() {
+                        "||" => Token::LogOr,
+                        "&&" => Token::LogAnd,
+                        _ => unreachable!(),
+                    };
+                    tokens.push(token);
+                }
                 _ => todo!(),
             }
         }
@@ -128,6 +142,7 @@ pub enum Token {
     // Syntax Operators
     Equals, Comma,
     EqualArrow, HyphenArrow,
+    LogNot, LogAnd, LogOr,
     Semicolon, Colon, Period, BackSlash,
     LeftParen, RightParen,
     LeftCurlyBracket, RightCurlyBracket,
