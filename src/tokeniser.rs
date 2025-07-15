@@ -56,15 +56,9 @@ impl Tokeniser {
                         "else" => Token::Else,
                         "match" => Token::Match,
                         "return" => Token::Return,
-                        
-                        // Types
-                        "i8" => Token::I8, "i16" => Token::I16,
-                        "i32" => Token::I32, "i64" => Token::I64,
-                        "u8" => Token::U8, "u16" => Token::U16,
-                        "u32" => Token::U32, "u64" => Token::U64,
-                        "usize" => Token::Usize, "isize" => Token::Isize,
-                        "string" => Token::Str, "bool" => Token::Bool,
-                        "f32" => Token::F32, "f64" => Token::F64,
+
+                        "true" => Token::Bool(true),
+                        "false" => Token::Bool(false),
 
                         _ => Token::Identifier(item),
                     };
@@ -149,13 +143,8 @@ pub enum Token {
     LeftAngleBracket, RightAngleBracket,
     LeftSqreBracket, RightSqreBracket,
 
-    // Types
-    I8, I16, I32, I64,
-    U8, U16, U32, U64,
-    Usize, Isize, Str,
-    F32, F64, Bool,
-
     // Values
     String(String),
     Number(String),
+    Bool(bool),
 }
