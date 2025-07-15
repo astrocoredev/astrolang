@@ -42,7 +42,7 @@ impl Tokeniser {
                 chr if chr.is_alphabetic() => {
                     let item: String = iter::once(chr)
                         .chain(iter::from_fn(
-                            || iter.by_ref().next_if(|ch| ch.is_alphanumeric())
+                            || iter.by_ref().next_if(|ch| ch.is_alphanumeric() || *ch == '_')
                         ))
                         .collect();
 
